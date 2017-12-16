@@ -1,7 +1,0 @@
-
-ipa_admin:
-    user: admin
-    pass: <SECRETSAUCE>
-
-ipa_realm: <REALM>
-

@@ -1,6 +1,0 @@
----
-- name: Install prerequsuits
-  dnf:
-    name: btrfs-progs
-    state: latest
-
