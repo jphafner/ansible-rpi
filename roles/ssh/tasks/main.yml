@@ -1,0 +1,77 @@
+---
+- name: template config
+  template:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/config.d/{{ item | basename }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0600'
+    backup: no
+  with_fileglob:
+    - "{{ role_path }}/templates/*"
+
+
+- name: Ensure $HOME/.ssh/config exists
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/config"
+    state: touch
+    group: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_env.USER }}"
+    mode: 0600
+
+- name: Ensure $HOME/.ssh/tmp/ exits
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/tmp/"
+    state: directory
+    group: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_env.USER }}"
+    mode: 0777
+
+- name: Ensure include statement
+  lineinfile:
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    regexp: "Include config.d"
+    line: "Include config.d/*"
+
+- name: Create config.d directory
+  file:
+    path: "{{ ansible_env.HOME }}/.ssh/config.d"
+    state: directory
+    group: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_env.USER }}"
+    mode: 0600
+
+- name: Copy config.d files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/config.d/{{ item | basename }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0600'
+    backup: no
+  with_fileglob:
+    - config_*
+
+- name: Copy ssh keys to home
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/config.d/{{ item | basename }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: '0600'
+    backup: no
+  with_fileglob:
+    - id_*
+
+#- name: Create user ssh_config file
+#  copy:
+#    src: ssh_config.j2
+#    dest: "{{ ansible_env.HOME }}/.ssh/config"
+#    owner: "{{ ansible_env.USER }}"
+#    group: "{{ ansible_env.USER }}"
+#    mode: '0600'
+#    validate: /usr/sbin/sshd -t -f %s
+#    backup: yes
+
+
+

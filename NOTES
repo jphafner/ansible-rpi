@@ -1,0 +1,60 @@
+
+# Ideas:
+- Prezto for zsh shell
+- configure gnome power settings
+- configure firefox plugins
+- security, selinux, sshd, 
+
+dnf install flash-plugin alsa-plugins-pulseaudio libcurl
+
+## Possibly use with_item to loop through all settings
+- name: Remove Launcher Icons
+  command: gsettings set com.canonical.Unity.Launcher favorites "['application://org.gnome.Nautilus.desktop', 'application://firefox.desktop', 'application://gnome-terminal.desktop', 'application://atom.desktop', 'application://unity-control-center.desktop', 'unity://running-apps', 'unity://expo-icon', 'unity://devices']"
+  become: true
+  become_user: "{{ user }}"
+
+# Example from Ansible Playbooks
+- template:
+    src: /mytemplates/foo.j2
+    dest: /etc/file.conf
+    owner: bin
+    group: wheel
+    mode: 0644
+
+# Create a DOS-style text file from a template
+- template:
+    src: config.ini.j2
+    dest: /share/windows/config.ini
+    newline_sequence: '\r\n'
+
+# Update sshd configuration safely, avoid locking yourself out
+- template:
+    src: etc/ssh/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'
+    validate: /usr/sbin/sshd -t -f %s
+    backup: yes
+
+
+## Gsettings
+gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
+gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
+gsettings set org.gnome.settings-daemon.plugins.power active false
+
+## Power management settings are controlled by gsettings keys. 
+## For instance, dim screens after X minutes is controlled by the following gsettings keys:
+org.gnome.settings-daemon.plugins.power.idle-brightness
+
+## Controls the brightness level to be used when the machine has been idle for some time.
+org.gnome.settings-daemon.plugins.power.idle-dim
+
+##Sets the drop in the brightness level when the machine is idle.
+org.gnome.desktop.session.idle-delay
+
+## Mouse Settings
+gsettings reset-recursively org.gnome.desktop.peripherals.mouse
+gsettings reset-recursively org.gnome.desktop.peripherals.touchpad
+

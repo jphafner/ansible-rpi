@@ -1,0 +1,4 @@
+---
+dnf_releasever: "{{ lookup('pipe', 'rpm -E %fedora') }}"
+dnf_basearch: "{{ lookup('pipe', 'uname -i') }}"
+

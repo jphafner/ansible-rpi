@@ -1,0 +1,16 @@
+---
+- name: Add Google Chrome repo
+  template:
+    src: "{{ item }}".j2
+    dest: "/etc/yum.repos.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_fileglobs:
+    - google-chrome
+
+- name: Install 
+  dnf:
+    name: chrome
+    state: latest
+

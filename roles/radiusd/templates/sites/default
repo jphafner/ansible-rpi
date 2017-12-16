@@ -1,0 +1,7 @@
+
+Auth-Type Kerberos {
+    krb5
+}
+
+
+

@@ -1,0 +1,21 @@
+---
+- name: Install Git Packages
+  dnf:
+    name: git
+    state: latest
+  become: yes
+  when: ansible_distribution == 'Fedora'
+
+- name: Change git config .files
+  become: yes
+  become_user: "{{ ansible_env.USER }}"
+  template:
+    src: "{{ item }}.tpl"
+    dest: "~/{{ item }}"
+    force: yes
+    backup: yes
+  with_items:
+    - .gitconfig
+    - .gitalias
+    - .gitignore
+

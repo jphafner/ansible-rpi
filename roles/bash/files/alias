@@ -1,0 +1,52 @@
+
+## space
+alias ducks='du -cks * | sort -rn | head'
+
+# sudo trick for aliases
+alias sudo='sudo '
+
+# User specific aliases and functions
+alias lha='ls -lha'
+alias lh='ls -lh'
+alias ll='ls -l'
+alias la='ls -a'
+alias lo='ls -o'
+#alias rm='rm -I --preserve-root'
+alias rm='rm -i'
+alias mv='mv -i'
+
+alias vlock='clear; vlock'
+alias less='less -FSRX'
+
+
+# http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+
+#2: Control cd command behavior
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+#4: Start calculator with math support
+alias bc='bc -l'
+
+#4: Generate sha1 digest
+alias sha1='openssl sha1'
+
+#7: Make mount command output pretty and human readable format
+alias mount='mount | column -t'
+
+# handy short cuts #
+alias h='history'
+alias j='jobs -l'
+
+#12: Show open tcp/udp/listening/all/numeric/process
+alias ports='ss -tulanp'
+
+#18: Update RHEL / CentOS / Fedora Linux server
+alias update='dnf update'
+alias updatey='dnf -y update'
+
+

@@ -1,0 +1,15 @@
+---
+- name: Install Node Package Manager
+  dnf:
+    name: npm
+    state: latest
+  become: yes
+  when: ansible_distrubtion == 'Fedora'
+
+- name: Install Node Package Manager
+  apt:
+    name: npm
+    state: latest
+  become: yes
+  when: ansible_distrubtion == 'Debian'
+

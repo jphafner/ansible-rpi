@@ -1,0 +1,5 @@
+krb5 {
+    keytab = /etc/krb5.keytab
+    service_principal = radius/miranda.csh.rit.edu
+}
+

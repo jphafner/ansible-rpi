@@ -1,0 +1,72 @@
+---
+- name: Install GNU Bazaar
+  dnf:
+    name: bzr
+    state: latest
+  become: true
+
+#- name: Install Variety dependencies
+#  dnf:
+#    name: "{{ item }}"
+#    state: lates
+#  become: true
+#  with_items:
+#    - python-requests
+#    - python-requests.exception
+#    - python-helpers
+#    - python-varietyconfig
+#    - python-varietyslideshow
+#    - python-gi
+#    - python-DominantColors
+#    - python-Builder
+
+
+#- name: Download Variety Source
+#  bzr:
+#    name: https://code.launchpad.net/~variety/variety/trunk
+#    dest: /tmp/variety
+#    version: head
+
+- name: Enable Copr for Variety
+  command: dnf --assumeyes copr enable sergiomb/builds_for_Stable_Releases 
+  become: true
+
+- name: Install Variety
+  dnf:
+    name: variety
+    state: latest
+  become: true
+
+- name: Install depencies
+  dnf:
+    name: "{{ item }}"
+    state: latex
+  become: true
+  with_items:
+    - python-gobject
+    - python-requests-cache
+    - python-appindicator
+    - libappindicator-gtk3
+
+- name: Disable Copr for Variety
+  command: dnf --assumeyes copr disable sergiomb/builds_for_Stable_Releases 
+  become: true
+
+- name: Create $HOME/.config/autostart
+  file:
+    path: "{{ ansible_env.HOME }}/.config/autostart"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+
+- name: Autostart Variety
+  template:
+    src: variety.desktop.tpl
+    dest: "{{ ansible_env.HOME }}/.config/autostart/variety.desktop"
+    group: "{{ ansible_env.USER }}"
+    owner: "{{ ansible_env.USER }}"
+    mode: 0660
+    force: yes
+    backup: yes
+
+

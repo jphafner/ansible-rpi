@@ -1,0 +1,27 @@
+---
+- name: Install desktop package
+  become: yes
+  copy:
+    src: ../files/something.desktop
+    dest: /etc/foo.conf
+    owner: foo
+    group: foo
+    mode: 0644
+
+- name:  template everything for fooserv
+    template: src={{item.0}} dest={{item.1}}
+    with_items:
+      - [ 'templates/foo.j2', '/etc/splat/foo.conf' ]
+      - [ 'templates/bar.j2', '/etc/splat/bar.conf' ]
+    notify: 
+      - restart fooserv
+
+- name: shortcut panel-main-menu
+  gsetting:
+    user: "{{ ansible_env.USER }}"
+    key:  "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_items:
+    - {key: 'org.gnome.desktop.wm.keybindings.panel-main-menu', value: 'string' }
+
+

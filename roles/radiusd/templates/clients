@@ -1,0 +1,22 @@
+client host.some.domain.com {
+    secret = s3cr3t_p4ssw0rd
+    sortname = myserver
+}
+
+client localhost {
+  ipaddr = 127.0.0.1
+  secret = <your_local_secret>
+  nastype = other
+}
+	 
+client <eduroam-US top level server(s)> {
+  #ipaddr = <eduroam-US top level server(s)>
+  secret = <your_eduroam_secret>
+  nastype = other
+}
+ 
+client radius1.realm.edu {
+  secret = <your_radius_secret>
+  nastype = other
+}
+
