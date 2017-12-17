@@ -1,0 +1,15 @@
+
+- name: Install prerequisites
+  apt:
+    name: "{{ item}"
+    state: latest
+  with_items:
+    -   python-picamera
+    -   python3-picamera
+
+
+
+# sudo raspi-config
+# choose option 5 enable-camera
+#
+

@@ -1,0 +1,10 @@
+
+- name: Install prerequisites
+  apt:
+      name: "{{ item }}"
+  with_items:
+    - bluetooth
+    -bluez-utils
+    - python-gobject
+    - blueman
+

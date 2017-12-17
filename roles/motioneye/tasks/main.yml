@@ -1,0 +1,59 @@
+---
+
+-name: Install motion prerequisites
+apt:
+  name: "{{ item }}"
+  state: latest
+  update_cache: yes
+with_items:
+  - ffmpeg
+  - v4l-utils
+  - libmariadbclient18
+  - libpq5
+
+  - name: Install motion
+  apt:
+      name: https://github.com/Motion-Project/motion/releases/download/release-4.1/pi_stretch_motion_4.1-1_armhf.deb
+      state: present
+
+
+      -name: Install motioneye prerequisites
+apt:
+  name: "{{ item }}"
+  state: latest
+  update_cache: yes
+with_items:
+  - python-pip
+  -python-dev
+  - libssl-dev
+  - libcurl4-openssl-dev
+  - libjpeg-dev
+
+
+
+- name: Install motioneye
+  pip:
+      name: motioneye
+      state: latest
+
+- name: Ensure motioneye directories
+  file:
+     name: "{{ item}]"
+     state: directory
+     recurse: yes
+  with_items:
+      - /etc/motioneye
+      - /var/lib/motioneye
+
+- name: Copy systemd-unit
+  copy:
+      src:/usr/local/share/motioneye/extra/motioneye.systemd-unit-local
+      dest: /etc/systemd/system/motioneye.service
+
+
+- name: Enable motioneye
+  name: motioneye
+  enabled: yes
+  state: restarted
+
+
