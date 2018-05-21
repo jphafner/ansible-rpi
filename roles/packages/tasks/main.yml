@@ -1,0 +1,15 @@
+---  
+
+
+- name: Install all packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    install_recommends: no
+  with_items:
+    - vim
+    - tmux
+    - git
+  become: yes
+
+

@@ -1,0 +1,9 @@
+
+# raspberry
+ansible_connection=ssh
+ansible_user=pi
+ansible_pass=raspberry
+
+
+ansible_port=22
+

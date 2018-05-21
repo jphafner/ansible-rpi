@@ -1,28 +1,31 @@
 ---
 
--name: Install prerequisites
-  apt:
-    name: "{{ item}}"
-	state: latest
-  with_items:
-    - network-manager
-
-
 - name: wpa_
   template: 
-  src: wpa_supplicant.j2
-      dest: /etc/wpa_supplicant.confg
-      mode: 0600
-      owner: root
+    src: wpa_supplicant.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    mode: 0600
+    owner: root
+  become: yes
 
-- name: nmcli
-  nmcli:
-  conn_name: paradise-ac
-  state: present
-  ifname: 
-  ip4:
-  gw4:
-when: ansible_distribution == 'Fedora'
+
+#- name: Install prerequisites
+#  apt:
+#    name: "{{ item}}"
+#	state: latest
+#  with_items:
+#    - network-manager
+
+
+#- name: nmcli
+#  nmcli:
+#    conn_name: paradise-ac
+#    state: present
+#    ifname: 
+#    ip4:
+#    gw4:
+#  when: ansible_distribution == 'Fedora'
+
 
 #nmcli connection add \
 # type wifi con-name "MySSID" ifname wlp3s0 ssid "MySSID" -- \

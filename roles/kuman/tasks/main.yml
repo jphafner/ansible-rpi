@@ -1,0 +1,22 @@
+
+---
+
+- name: git repo
+  git:
+    repo: 'https://github.com/goodtft/LCD-show.git'
+    dest: /home/pi/LCD-show/
+
+- name: guarantee permission
+  file:
+    path: /home/pi/LCD-show/LCD35-show
+    mode: '+x'
+    owner: pi
+
+- name: execute LCD-35-show
+  command: /home/pi/LCD-show/LCD35-show
+  become: yes
+
+  # to reverse settings
+  #command: /home/pi/LCD-show/LCD-hdmi
+
+

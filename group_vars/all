@@ -1,0 +1,3 @@
+#password: "{{ lookup('pipe' 'pass show Hedonism/paradise') }}"
+password: asdfqwerqwer 
+

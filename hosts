@@ -1,29 +1,10 @@
+---  
 all:
-  hosts:
-    mail.example.com
-  children:
-    webservers:
-      hosts:
-        foo.example.com:
-        bar.example.com:
-    dbservers:
-      hosts:
-        one.example.com:
-        two.example.com:
-        three.example.com:
-
-atlanta:
-  hosts:
-    host1:
-    host2:
-  vars:
-    ntp_server: ntp.atlanta.example.com
-    proxy: proxy.atlanta.example.com
-
-xu4 ipa
-rpi31 eyepi
-rpi32 tvpi
-nuc75i desktop
-nuc5   nfs
-
-
+    hosts:
+        raspberry:
+            ansible_port: 22
+            ansible_host: 192.168.1.103
+            ansible_ssh_user: pi
+            ansible_ssh_pass: raspberry 
+            ansible_user: pi
+            ansible_pass: raspberry 

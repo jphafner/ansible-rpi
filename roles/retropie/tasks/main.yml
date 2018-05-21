@@ -1,0 +1,28 @@
+---
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - lsb-release
+  become: yes
+
+- name: git repo
+  git:
+    repo: 'https://github.com/RetroPie/RetroPie-Setup.git'
+    dest: /home/pi/RetroPie-Setup
+    depth: 1
+
+
+- name: Make executable
+  file:
+    path: '/home/pi/RetroPie-Setup/retropie_setup.sh'
+    mode: '+x' 
+
+- name: Executable
+  command: '/home/pi/RetroPie-Setup/retropie_setup.sh'
+  become: yes
+
+

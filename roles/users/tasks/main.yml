@@ -1,0 +1,7 @@
+---
+
+- name: ensure user
+    name: pi
+    passwd: "{ lookup('pipe', 'pass show Hedonism/pi' }"
+    group: wheel
+

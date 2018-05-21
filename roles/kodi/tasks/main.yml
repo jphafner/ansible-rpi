@@ -1,0 +1,12 @@
+---
+
+- name: Install Kodi Packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - kodi
+    - kodi-pvr-hts #TVHeadEnd PVR for Kodi
+
+
