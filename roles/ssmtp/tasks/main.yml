@@ -1,0 +1,53 @@
+
+- name: Installed ssmtp
+  apt:
+    name: ssmtp
+    state: latest
+  become: yes
+
+- name: configure ssmtp
+  lineinfile:
+    dest: /etc/ssmtp/ssmtp.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    # The user that gets all the mails (UID < 1000, usually the admin)
+    #root=username@gmail.com
+
+    # The mail server (where the mail is sent to), both port 465 or 587 should be acceptable
+    # See also https://support.google.com/mail/answer/78799
+    - { regexp: '^mailhub=', line: 'mailhub=smtp.gmail.com:587' }
+
+
+    # The address where the mail appears to come from for user authentication.
+    - { regexp: '^rewriteDomain=', line: 'rewriteDomain=gmail.com' }
+
+    # The full hostname.  Must be correctly formed, fully qualified domain name or GMail will reject connection.
+    #hostname=yourlocalhost.yourlocaldomain.tld
+
+    # Use SSL/TLS before starting negotiation
+    - { regexp: '^UseTLS=', line: 'UseTLS=YES' }
+    - { regexp: '^AuthMethod=', line: 'AuthMethod=LOGIN' }
+
+    # Username/Password
+    - { regexp: '^AuthUser=', line: 'AuthUser={{ gmail_account }}' }
+    - { regexp: '^AuthPass=', line: 'AuthPass={{ gmail_password }}' }
+    - { regexp: '^UseSTARTTLLS=', line: 'UseSTARTTLS=YES' }
+
+    # Email 'From header's can override the default domain?
+    - { regexp: '^FromLineOverride=', line: 'FromLineOverride=YES' }
+  become: yes
+
+
+- name: Disable Sendmail permamently
+  systemd:
+    name: sendmail
+    state: stopped
+    masked: yes
+  become: yes
+
+  # echo -n 'Subject: test\n\nTesting ssmtp' | sendmail -v jeffrey.p.hafner@gmail.com 
+  # echo "This is a test" | mail -s "Test" jeffrey.p.hafner@gmail.com
+
+
+

@@ -1,15 +1,27 @@
 ---  
 
 
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+  become: yes
+
+
+#- name: Update all packages to the latest version
+#  apt:
+#    upgrade: dist
+
+
 - name: Install all packages
   apt:
     name: "{{ item }}"
     state: latest
     install_recommends: no
   with_items:
-    - vim
-    - tmux
     - git
+    - vim
+   #- tmux
   become: yes
 
 

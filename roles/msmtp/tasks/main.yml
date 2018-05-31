@@ -1,0 +1,33 @@
+
+- name: Installed msmtp
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_item:
+    - msmtp
+    - msmtp-mta
+    - mailutils
+
+
+- name: configure ssmtp
+  template:
+    src:  msmtprc.j2
+    dest: /etc/msmtprc #home/motion/msmtprc
+    owner: motion
+    group: motion
+    mode: "0600"
+
+
+- name: Disable Sendmail permamently
+  systemd:
+    name: sendmail
+    state: stopped
+    masked: yes
+  become: yes
+
+  # echo -n 'Subject: test\n\nTesting ssmtp' | sendmail -v jeffrey.p.hafner@gmail.com 
+  # echo "This is a test" | mail -s "Test" jeffrey.p.hafner@gmail.com
+
+
+

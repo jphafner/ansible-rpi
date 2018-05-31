@@ -2,14 +2,20 @@
 - name: a playbook to setup my local machine with my basic customizations
   hosts: raspberry
   gather_facts: yes
+  vars:
+     gmail_account: "jeffrey.p.hafner@gmail.com"
+     gmail_password: "{{ lookup('pipe', 'pass show Email/jeffrey.p.hafner@gmail.com') }}"
   tasks:
-    - set_fact:
-        password="{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}"
-  #roles:
-  #  - wifi
-  #  - packages
-  #  - motioneye
-  #  - kuman
+    - debug:
+        var: gmail_password
+  roles:
+    - msmtp
+    - gdrive
+   #- packages
+   #- wifi
+   #- motioneye
+   #- motion-nofify
+   #- kuman
    #- retropie
    #- kodi
    #- users

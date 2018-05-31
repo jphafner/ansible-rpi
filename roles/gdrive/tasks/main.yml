@@ -1,0 +1,58 @@
+
+- name: Guarantee /usr/local/bin
+  file:
+    path: /usr/local/bin/
+    state: directory
+    owner: root
+    group: root
+  become: yes
+
+- name: download gdrive-linux-arm
+  get_url:
+    url:  https://docs.google.com/uc?id=0B3X9GlR6EmbnRjBaMVVLalN4cTA&export=download
+    dest:  /usr/local/bin/gdrive-linux-arm
+    owner: root
+    group: root
+    mode: "0555"
+  become: yes
+
+- name: Create Soft link
+  file:
+    src: /usr/local/bin/gdrive-linux-arm
+    dest: /usr/local/bin/gdrive
+    state: link
+  become: yes
+
+- name: Guarantee $HOME/.gdrive
+  file:
+    path: /home/motion/.gdrive/
+    mode: 0777
+    group: motion
+    owner: motion
+    state: directory
+  become:  yes
+
+- name: 
+  copy: 
+    src: "/home/hafnon/.gdrive/token_v2.json"
+    dest: /home/pi/.gdrive/token_v2.json
+    owner: motion
+    group: motion
+    mode: "0600"
+  become: yes
+
+
+- name: Guarantee /home/motion
+  user:
+    name: motion
+    home: /home/motion/
+  become: yes
+
+#- name: git repo
+#  git:
+#    repo: 'https://github.com/prasmussen/gdrive.git'
+#    dest: /home/pi/gdrive/
+#    force: yes
+#    update: yes
+
+
